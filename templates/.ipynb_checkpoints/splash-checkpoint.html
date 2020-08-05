@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Splash Screen</title>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='splash.css') }}">
+</head>
+<body>
+	<main>
+		<div>
+			<h1 class="title">RoboSimP</h1>
+		</div>
+		<div class="description">
+			<p>A simple educational tool that uses engaging visualizations to help students understand how Robo-Trading algorithms work!</p>
+		</div>
+		<div class="cta">
+			<form action="/moving-avg">
+        <button type="submit">Lets Start SimPing!</button>
+    </form>
+		</div>
+	</main>
+</body>
+</html>

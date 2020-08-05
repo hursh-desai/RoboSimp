@@ -1,0 +1,33 @@
+<style>
+    body{
+        font-family: sans-serif;
+    }
+    .parameters {
+        text-align: center;
+        font-size: 4em;
+        font-weight: lighter;
+        padding: 30px 0px 0px 0px;
+    }
+    form {
+        float: left;
+        margin-right: 1200px;
+        margin-left: 30px;
+        padding: 50px 0px 0px 0px;
+    }
+    .explanation {
+        font-size: 12px
+    }
+    .graph {
+        margin-left: 30%;
+        margin-bottom: 30%;
+        padding: 50px
+        }
+    .sharpe {
+        float: right
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+}
+</style>
