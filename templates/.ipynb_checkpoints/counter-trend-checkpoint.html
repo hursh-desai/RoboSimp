@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+    <head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>RoboSimP</title>
+<style>
+    body{
+        font-family: sans-serif;
+    }
+    .organize{
+        float:left;
+        width: 50%;
+        padding:1%;
+        margin: 1%
+    }
+    .title {
+        text-align: center;
+        font-size: 4em;
+        font-weight: lighter;
+        padding: 30px 0px 0px 0px;
+    }
+    .form{
+        width: 320px;
+        margin-left: 25px;
+    }
+    .graph{
+        margin-top: 50px;
+        margin-left: 150px;
+    }
+    .under-graph{
+        margin-left: 5px;
+    }
+    .btn-outline-secondary{
+        position:absolute;
+        top: 145px;
+        left: 240px
+            
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+}
+</style>
+        
+</head>
+    <body>
+        <main> 
+        <h1 class="title">RoboSimP</h1>   
+            <div class= "form organize">
+                                
+                <h4>Counter Trend</h4>
+                <form action="/moving-avg" method="get">
+                    <button type="submit" class="btn btn-outline-secondary">Change Strategy</button>
+                </form>
+             <form action="/counter-trend" method="get">
+                    
+                
+                <label for="ep">Execution Period</label>
+                {% if ep ==  None %}
+                <input type="number" class="form-control" name="ep" placeholder="100" required >
+                {% else %}
+                <input type="number" class="form-control" value = {{ep}} name="ep">
+                {% endif %}
+
+                <label for="ticker">Stock Ticker</label>
+                {% if ticker ==  None %}
+                <input type="text" class="form-control" name="ticker" placeholder="AAPL" required>
+                {% else %}
+                <input type="text" class="form-control" value = {{ticker}} name="ticker">
+                {% endif %}
+                <hr>
+                <button type="submit" class="btn btn-primary">Generate</button>
+            </form>
+            </div>
+           <div class="graph organize">
+               {{ script|safe }}
+               {{ div|safe }}
+               <div class= 'under-graph'>
+               <p> Sharpe Ratio: {{sharpe}}</p>
+               </div>
+               <i class= 'under-graph'>Counter Trend trading strategies offer a systematic, reactionary framework for trading that is equally as effective as trend following, but quite different in methodology. Counter Trend models play the opposite side to trend following and primarily are looking to sell short-term overbought assets (meaning the price would be higher than normal) and buy short-term oversold assets (meaning the price would be lower than normal). These models tend to be employed on a much shorter time frame and work better when there is more volatility or quick fluctuation in price.  </i>
+          </div>      
+            
+
+            
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+           </main>
+    </body>
+</html>
