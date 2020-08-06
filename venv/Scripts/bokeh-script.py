@@ -1,4 +1,4 @@
-#!c:\users\hd626\project\venv\scripts\python.exe
+#!c:\users\hd626\1_hack\robosimp\venv\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'bokeh==2.1.1','console_scripts','bokeh'
 __requires__ = 'bokeh==2.1.1'
 import re
