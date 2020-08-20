@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import math
 
+# .\venv\Scripts\activate
  
 app = Flask(__name__)
 
@@ -31,7 +32,6 @@ def get_price_data(ticker, period='max'):
 def add_moving_avgs(df, short, long): 
     df['Short_MA'] = df.rolling(short)['Close'].mean()
     df['Long_MA'] = df.rolling(long)['Close'].mean()
-#Ezio Jiaqi Wang+Whitney Dankworth. Graphing Function.    
 #date filtering parameters start + end default to none, pass strings in "YYYY-MM-DD" format to filter
 def render_short_long_ma(ticker, short=10, long=30, start=None, end=None):
     #Setting default canvas when users first enter
@@ -271,4 +271,4 @@ def splash():
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    app.run(threaded=True, debug=True)
+    app.run(threaded=True)
