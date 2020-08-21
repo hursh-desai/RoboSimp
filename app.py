@@ -267,7 +267,7 @@ def counter_trend():
     else: sharpe = sharpe_ratio_counter(ticker, int(ep))
     return render_template('counter-trend.html', script=script, div=div, ticker=ticker, ep=ep, sharpe=sharpe)
 
-@app.route('/splash')
+@app.route('/')
 def splash():
     return render_template('splash.html')
 
