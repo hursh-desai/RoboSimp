@@ -270,4 +270,5 @@ def counter_trend():
 def splash():
     return render_template('splash.html')
 
-app.run(threaded=True)
+if __name__ == '__main__':
+    app.run()
