@@ -57,7 +57,20 @@
                     <button type="submit" class="btn btn-outline-secondary">Change Strategy</button>
                 </form>
              <form action="/counter-trend" method="get">
-                    
+
+                <label for="start">Start Date</label>
+                {% if start ==  None %}
+                <input type="date" class="form-control" name="start" required>
+                {% else %}
+                <input type="date" class="form-control" value = {{start}} name="start">
+                {% endif %}
+                
+                <label for="end">End Date</label>
+                {% if end ==  None %}
+                <input type="date" class="form-control" name="end" required>
+                {% else %}
+                <input type="date" class="form-control" value = {{end}} name="end">
+                {% endif %}
                 
                 <label for="ep">Execution Period</label>
                 {% if ep ==  None %}

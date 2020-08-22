@@ -34,6 +34,7 @@ def add_moving_avgs(df, short, long):
     df['Short_MA'] = df.rolling(short)['Close'].mean()
     df['Long_MA'] = df.rolling(long)['Close'].mean()   
 #date filtering parameters start + end default to none, pass strings in "YYYY-MM-DD" format to filter
+
 def render_short_long_ma(ticker, short=10, long=30, start=None, end=None):
     #Setting default canvas when users first enter
     if ticker is None:
@@ -115,22 +116,6 @@ def render_short_long_ma(ticker, short=10, long=30, start=None, end=None):
     #show(fig)
     return fig
 
-def sharpe_ratio_counter(ticker, execute_period):
-    df = counterTrend(pd.DataFrame(get_price_data(ticker)), execute_period=int(execute_period))
-        
-    #Calculate the daily returns
-    df['% Change'] = df['Close'].pct_change()
-    
-    #Take the average of all returns
-    avg_ret = df['% Change'][execute_period:].mean()
-    
-    #Taking the standard deviation of the returns gives us a measure of volatility (price fluctiation), and thus a proxy for risk
-    std_dev = df['% Change'][execute_period:].std()
-    
-    #Sharpe ratio formula: 252 figure represents the number of trading days in a year and is used to annualize the metrics 
-    sharpe = (math.sqrt(252)*avg_ret)/std_dev
-    return round(sharpe,3)
-
 def sharpe_ratio(ticker,short,long):
     df = pd.DataFrame(get_price_data(ticker))
     add_moving_avgs(df, short, long)
@@ -169,7 +154,7 @@ def counterTrend(df, execute_period):
  
     return df
 
-def render_counterTrend(ticker, execute_period):
+def render_counterTrend(ticker, execute_period, start=None, end=None):
     if ticker is None:
         fig = figure(plot_height=400, plot_width=800,
                      toolbar_location='right', tools=['pan','wheel_zoom','save','reset'])
@@ -177,12 +162,12 @@ def render_counterTrend(ticker, execute_period):
     df_0=pd.DataFrame(get_price_data(ticker))
     df=counterTrend(df_0, execute_period)
     #Converting df into Column data source
-    #if start is not None and end is not None:
-        #s=df.loc[start:end]
-        #price_data = ColumnDataSource(df.loc[start:end])
-    #else:
-    s=df
-    price_data = ColumnDataSource(df)
+    if start is not None and end is not None:
+        s=df.loc[start:end]
+        price_data = ColumnDataSource(df.loc[start:end])
+    else:
+        s=df
+        price_data = ColumnDataSource(df)
     # setting default when users first enter
     fig = figure(title=f'{ticker} Price',
                  x_axis_type='datetime',
@@ -231,6 +216,23 @@ def render_counterTrend(ticker, execute_period):
     output_notebook()
     #show(fig)
     return fig
+
+    
+def sharpe_ratio_counter(ticker, execute_period):
+    df = counterTrend(pd.DataFrame(get_price_data(ticker)), execute_period=int(execute_period))
+        
+    #Calculate the daily returns
+    df['% Change'] = df['Close'].pct_change()
+    
+    #Take the average of all returns
+    avg_ret = df['% Change'][execute_period:].mean()
+    
+    #Taking the standard deviation of the returns gives us a measure of volatility (price fluctiation), and thus a proxy for risk
+    std_dev = df['% Change'][execute_period:].std()
+    
+    #Sharpe ratio formula: 252 figure represents the number of trading days in a year and is used to annualize the metrics 
+    sharpe = (math.sqrt(252)*avg_ret)/std_dev
+    return round(sharpe,3)
     
 
 @app.route('/moving-avg')
@@ -255,16 +257,18 @@ def moving_avg():
 
 @app.route('/counter-trend')
 def counter_trend():
+    start = request.args.get('start')
+    end = request.args.get('end')
     ep = request.args.get('ep')
     ticker = request.args.get('ticker')
     if not isinstance(ep, int):
         ep = 100
-    plot = render_counterTrend(ticker, execute_period=int(ep))
+    plot = render_counterTrend(ticker, execute_period=int(ep), start=start, end=end)
     script, div = components(plot)
     if not isinstance(ticker, str):
         sharpe = ''
     else: sharpe = sharpe_ratio_counter(ticker, int(ep))
-    return render_template('counter-trend.html', script=script, div=div, ticker=ticker, ep=ep, sharpe=sharpe)
+    return render_template('counter-trend.html', script=script, start=start, end=end, div=div, ticker=ticker, ep=ep, sharpe=sharpe)
 
 @app.route('/')
 def splash():
